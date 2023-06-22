@@ -21,4 +21,5 @@ class ImageClassifier:
 
     def predict(self, image: imageType) -> List[ClassifierResponseSchema]:
         result = self.classifier(image)
+        print(result)
         return result
