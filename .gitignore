@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # ML stuff
-**/mlmodels
+# **/mlmodels
 
 # Editors
 .idea
