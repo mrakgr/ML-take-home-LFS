@@ -19,5 +19,4 @@ class ImageClassifier:
             self.model.save_pretrained(MODEL_NAME)
 
     def predict(self, image: imageType) -> List[ClassifierResponseSchema]:
-        result = self.model(image)
-        return result
+        return self.model(image)
