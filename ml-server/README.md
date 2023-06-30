@@ -56,7 +56,7 @@ cd ML-take-home
 
 # Init the server
 cd ml-server 
-pipenv install
+pipenv install -d
 pipenv shell
 python3 main.py 
 ```

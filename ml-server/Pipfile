@@ -11,15 +11,15 @@ httpx = "==0.23.0"
 rich = "==12.6.0"
 pillow = "==9.3.0"
 python-multipart = "==0.0.5"
+transformers = {extras = ["torch"], version = "*"}
+torch = "==2.0.1"
+
+[dev-packages]
 pytest = "==7.2.0"
 datasets = "==2.13.0"
 evaluate = "*"
 torchvision = "*"
-transformers = {extras = ["torch"], version = "*"}
 scikit-learn = "*"
-torch = "==2.0.1"
-
-[dev-packages]
 
 [requires]
 python_version = "3.11"
