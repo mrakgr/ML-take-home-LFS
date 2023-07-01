@@ -1,31 +1,20 @@
-
-[project]
-name = ""
-version = ""
+[tool.poetry]
+name = "ml-trainer"
+version = "0.1.0"
 description = ""
-authors = [
-    {name = "Marko Grdinić", email = "mrakgr@gmail.com"},
-]
-dependencies = [
-    "transformers[torch]"
-]
-requires-python = ">=3.11"
-license = {text = "MIT"}
+authors = ["Marko Grdinić <mrakgr@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ml_trainer"}]
 
-[tool.pdm]
-[[tool.pdm.source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
-name = "pypi"
+[tool.poetry.dependencies]
+python = "^3.11"
 
-[tool.pdm.dev-dependencies]
-dev = [
-    "datasets==2.13.0",
-    "evaluate",
-    "torchvision",
-    "scikit-learn",
-]
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu117/"
+priority = "explicit"
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
