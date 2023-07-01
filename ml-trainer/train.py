@@ -76,7 +76,7 @@ from transformers import TrainingArguments, Trainer
 metric_name = "accuracy"
 
 args = TrainingArguments(
-    "mlmodels/vit-potatoes-plant-health-status", # TODO: Change the path to the server.
+    "../ml-server/mlmodels/vit-potatoes-plant-health-status",
     save_strategy="epoch",
     evaluation_strategy="epoch",
     learning_rate=2e-5,
