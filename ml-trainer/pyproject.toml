@@ -1,0 +1,31 @@
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Marko Grdinić", email = "mrakgr@gmail.com"},
+]
+dependencies = [
+    "transformers[torch]"
+]
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+[tool.pdm]
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "datasets==2.13.0",
+    "evaluate",
+    "torchvision",
+    "scikit-learn",
+]
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
