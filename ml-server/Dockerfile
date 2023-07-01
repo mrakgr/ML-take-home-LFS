@@ -15,7 +15,6 @@ COPY main.py .
 ARG CACHE_DIR=./.cache
 ENV TRANSFORMERS_CACHE=${CACHE_DIR}
 RUN mkdir ${CACHE_DIR} && chmod 777 ${CACHE_DIR}
-# RUN mkdir ./mlmodels && chmod 777 ./mlmodels
 
 EXPOSE 8001
 
