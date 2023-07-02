@@ -35,12 +35,14 @@ async def read_root():
 
 
 @app.post("/classify", tags=["Image Classification"])
-async def classify(file: Union[UploadFile, None] = None):
-    if not file:
+async def classify(files: Union[list[UploadFile], None] = None):
+    if not files:
         return ResponseModel(message="No file sent", success=False)
 
-    content = await file.read()
-    image = Image.open(io.BytesIO(content))
-    result = Classifier.predict(image)
+    result = []
+    for file in files:
+        content = await file.read()
+        image = Image.open(io.BytesIO(content))
+        result.append(Classifier.predict(image))
 
     return ResponseModel(data=result, message="Successful classification")
