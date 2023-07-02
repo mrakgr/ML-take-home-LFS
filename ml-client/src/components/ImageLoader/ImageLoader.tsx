@@ -1,32 +1,33 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./imageLoader.scss";
 
 interface ImageResultProps {
-  images: any;
-  setImages: (images: any) => void;
-  setMessage: (message: any) => void;
+  images: File[];
+  setImages: (fun : ((images: File[]) => File[])) => void;
+  setMessage: (message: string) => void;
 }
+
+const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 
 const ImageLoader = (props: ImageResultProps) => {
   const handleFile = (e: React.ChangeEvent<HTMLInputElement> | null) => {
-    let file = e?.target?.files;
+    const file = e?.target?.files;
+    file && props.setImages(images => [...images,...file]) // Had to change the target to ES2015 for `[...file]` to work.
+  };
 
-    for (let i = 0; i < file!.length; i++) {
-      const fileType = file![i]["type"];
-      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+  const removeImage = (image: File) => {
+    props.setImages(images => images.filter((x: File) => x !== image));
+  };
 
-      if (validImageTypes.includes(fileType)) {
-        props.setImages([...props.images, file![i]]);
-      } else {
-        props.setImages([]);
-        props.setMessage("only images accepted");
-      }
+  const createObjectURL = useMemo(() => {
+    const registry = new FinalizationRegistry<string>(x => {URL.revokeObjectURL(x)});
+    return (image : File) => {
+      const url = URL.createObjectURL(image)
+      registry.register(image,url)
+      return url
     }
-  };
-
-  const removeImage = (i: number) => {
-    props.setImages(props.images.filter((image: any) => image.name !== i));
-  };
+  },[])
+  
 
   return (
     <div>
@@ -43,18 +44,20 @@ const ImageLoader = (props: ImageResultProps) => {
 
           <input
             type="file"
+            accept={validImageTypes.join(",")}
             onChange={handleFile}
             className="opacity-0"
             name="files[]"
+            multiple
           />
         </label>
       </div>
 
       <div className="flex flex-wrap gap-2 mt-5">
-        {props.images.map((image: any, key: number) => (
-          <div key={key} className="relative image-remove">
+        {props.images.map((image, i) => (
+          <div key={i} className="relative image-remove">
             <span
-              onClick={() => removeImage(image.name)}
+              onClick={() => removeImage(image)}
               className="remove-icon"
             >
               <span className="material-icons">delete</span>
@@ -62,8 +65,8 @@ const ImageLoader = (props: ImageResultProps) => {
 
             <img
               className="image-remove"
-              src={URL.createObjectURL(image)}
-              alt="classify image"
+              src={createObjectURL(image)}
+              alt="classify leaves"
             />
           </div>
         ))}

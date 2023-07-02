@@ -12,7 +12,7 @@ interface IClassifier {
 function Classifier() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
-  const [files, setFiles] = useState<Array<any>>([]);
+  const [files, setFiles] = useState<Array<File>>([]);
   const [results, setResults] = useState<Array<IClassifier []>>([]);
 
   const uploadImage = useCallback(() => {
