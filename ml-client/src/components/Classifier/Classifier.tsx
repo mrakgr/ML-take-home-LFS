@@ -12,8 +12,8 @@ interface IClassifier {
 function Classifier() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
-  const [files, setFiles] = useState<Array<File>>([]);
-  const [results, setResults] = useState<Array<IClassifier []>>([]);
+  const [files, setFiles] = useState<Blob []>([]);
+  const [results, setResults] = useState<IClassifier [] []>([]);
 
   const uploadImage = useCallback(async () => {
     setLoading(true);
@@ -35,8 +35,8 @@ function Classifier() {
       setResults((await response.json()).data);
     } catch (error : any) {
         setLoading(false);
-        setResults([]);
         setMessage(error.message);
+        setResults([]);
     }
   }, [files]);
 
