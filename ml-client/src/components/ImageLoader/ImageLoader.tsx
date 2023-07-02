@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
+import React from "react";
 import "./imageLoader.scss";
+import { createFinalizedObjectUrl } from "../../utils";
 
 interface ImageResultProps {
   images: File[];
-  setImages: (fun : ((images: File[]) => File[])) => void;
+  setImages: (fun: ((images: File[]) => File[])) => void;
   setMessage: (message: string) => void;
 }
 
@@ -12,22 +13,12 @@ const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 const ImageLoader = (props: ImageResultProps) => {
   const handleFile = (e: React.ChangeEvent<HTMLInputElement> | null) => {
     const file = e?.target?.files;
-    file && props.setImages(images => [...images,...file]) // Had to change the target to ES2015 for `[...file]` to work.
+    file && props.setImages(images => [...images, ...file]) // Had to change the target to ES2015 for `[...file]` to work.
   };
 
   const removeImage = (image: File) => {
     props.setImages(images => images.filter((x: File) => x !== image));
   };
-
-  const createObjectURL = useMemo(() => {
-    const registry = new FinalizationRegistry<string>(x => {URL.revokeObjectURL(x)});
-    return (image : File) => {
-      const url = URL.createObjectURL(image)
-      registry.register(image,url)
-      return url
-    }
-  },[])
-  
 
   return (
     <div>
@@ -65,7 +56,7 @@ const ImageLoader = (props: ImageResultProps) => {
 
             <img
               className="image-remove"
-              src={createObjectURL(image)}
+              src={createFinalizedObjectUrl(image)}
               alt="classify leaves"
             />
           </div>

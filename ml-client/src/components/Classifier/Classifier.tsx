@@ -15,31 +15,29 @@ function Classifier() {
   const [files, setFiles] = useState<Array<File>>([]);
   const [results, setResults] = useState<Array<IClassifier []>>([]);
 
-  const uploadImage = useCallback(() => {
+  const uploadImage = useCallback(async () => {
     setLoading(true);
     let formData = new FormData();
     files.forEach(file => {
       formData.append("files", file);
     });
 
-    fetch("http://localhost:8001/classify", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        setResults(data.data);
-        setMessage("Image analyzed successfully");
-      })
-      .catch((error) => {
+    try {
+      const response =  await fetch("http://localhost:8001/classify", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: formData,
+        })
+      setLoading(false);
+      setMessage("Image analyzed successfully");
+      setResults((await response.json()).data);
+    } catch (error : any) {
         setLoading(false);
         setResults([]);
         setMessage(error.message);
-      });
+    }
   }, [files]);
 
   const handleTryAgain = () => {

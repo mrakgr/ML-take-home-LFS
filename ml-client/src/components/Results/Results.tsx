@@ -1,5 +1,5 @@
-import React from "react";
 import "./results.scss";
+import { createFinalizedObjectUrl } from "../../utils";
 
 interface ImageResultProps {
   image: any;
@@ -14,8 +14,8 @@ const Results = (props: ImageResultProps) => {
       <div className="results-content">
         <img
           className="result-image"
-          src={URL.createObjectURL(props.image)}
-          alt="result image"
+          src={createFinalizedObjectUrl(props.image)}
+          alt="result leaf"
         />
 
         <div className="results-score">
