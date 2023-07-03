@@ -1,6 +1,6 @@
 import io
 import time
-from typing import Union
+from typing import List
 
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,7 +35,7 @@ async def read_root():
 
 
 @app.post("/classify", tags=["Image Classification"])
-async def classify(files: list[UploadFile] = []):
+async def classify(files: List[UploadFile] = []):
     # Note: If literally nothing gets sent in the form data, without running this endpoint 
     # it will give 400 error: Did not find CR at end of boundary (40).
     if len(files) == 0: 
@@ -47,4 +47,4 @@ async def classify(files: list[UploadFile] = []):
         image = Image.open(io.BytesIO(content))
         result.append(Classifier.predict(image))
 
-    return ResponseModel(data=result, message="Image analyzed successfully")
+    return ResponseModel(data=result, message="Successful classification")
