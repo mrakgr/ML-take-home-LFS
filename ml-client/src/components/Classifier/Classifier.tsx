@@ -30,13 +30,14 @@ function Classifier() {
           },
           body: formData,
         })
+      const json = await response.json()
+      setResults(json.data);
       setLoading(false);
-      setMessage("Image analyzed successfully");
-      setResults((await response.json()).data);
+      setMessage(json.message);
     } catch (error : any) {
+        setResults([]);
         setLoading(false);
         setMessage(error.message);
-        setResults([]);
     }
   }, [files]);
 

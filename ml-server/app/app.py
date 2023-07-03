@@ -35,8 +35,10 @@ async def read_root():
 
 
 @app.post("/classify", tags=["Image Classification"])
-async def classify(files: Union[list[UploadFile], None] = None):
-    if not files:
+async def classify(files: list[UploadFile] = []):
+    # Note: If literally nothing gets sent in the form data, without running this endpoint 
+    # it will give 400 error: Did not find CR at end of boundary (40).
+    if len(files) == 0: 
         return ResponseModel(message="No file sent", success=False)
 
     result = []
@@ -45,4 +47,4 @@ async def classify(files: Union[list[UploadFile], None] = None):
         image = Image.open(io.BytesIO(content))
         result.append(Classifier.predict(image))
 
-    return ResponseModel(data=result, message="Successful classification")
+    return ResponseModel(data=result, message="Image analyzed successfully")
