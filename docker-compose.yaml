@@ -1,0 +1,17 @@
+# For Azure Container Registry.
+services:
+  ml-server:
+    build:
+      context: ./ml-server
+    ports:
+      - 8001:8001
+    image: cacacbd392b0acr.azurecr.io/ml-take-home:server
+
+  ml-client:
+    build:
+      context: ./ml-client
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    image: cacacbd392b0acr.azurecr.io/ml-take-home:client
