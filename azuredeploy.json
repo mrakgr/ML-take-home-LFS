@@ -4,17 +4,38 @@
   "parameters": {
     "containerGroupName": {
       "type": "string",
-      "defaultValue": "myContainerGroup",
+      "defaultValue": "ml-take-home-container-group",
       "metadata": {
         "description": "Container Group name."
+      }
+    },
+    "imageRegistryLoginServer": {
+      "type": "string",
+      "defaultValue": "cacacbd392b0acr.azurecr.io",
+      "metadata": {
+        "description": "Image Registry Server Domain"
+      }
+    },
+    "imageRegistryUsername": {
+      "type": "string",
+      "defaultValue": "???",
+      "metadata": {
+        "description": "Image Registry Server Username"
+      }
+    },
+    "imageRegistryPassword": {
+      "type": "securestring",
+      "defaultValue": "???",
+      "metadata": {
+        "description": "Image Registry Server Password"
       }
     }
   },
   "variables": {
-    "container1name": "aci-tutorial-app",
-    "container1image": "mcr.microsoft.com/azuredocs/aci-helloworld:latest",
-    "container2name": "aci-tutorial-sidecar",
-    "container2image": "mcr.microsoft.com/azuredocs/aci-tutorial-sidecar"
+    "container1name": "ml-client",
+    "container1image": "cacacbd392b0acr.azurecr.io/ml-take-home:client",
+    "container2name": "ml-server",
+    "container2image": "cacacbd392b0acr.azurecr.io/ml-take-home:server"
   },
   "resources": [
     {
@@ -23,6 +44,13 @@
       "apiVersion": "2019-12-01",
       "location": "[resourceGroup().location]",
       "properties": {
+        "imageRegistryCredentials": [
+          {
+            "server": "[parameters('imageRegistryLoginServer')]",
+            "username": "[parameters('imageRegistryUsername')]",
+            "password": "[parameters('imageRegistryPassword')]"
+          }
+        ],
         "containers": [
           {
             "name": "[variables('container1name')]",
@@ -36,10 +64,10 @@
               },
               "ports": [
                 {
-                  "port": 80
+                  "port": 3000
                 },
                 {
-                  "port": 8080
+                  "port": 8001
                 }
               ]
             }
@@ -60,15 +88,15 @@
         "osType": "Linux",
         "ipAddress": {
           "type": "Public",
-          "dnsNameLabel": "test-container-app",
+          "dnsNameLabel": "ml-take-home",
           "ports": [
             {
               "protocol": "tcp",
-              "port": 80
+              "port": 3000
             },
             {
                 "protocol": "tcp",
-                "port": 8080
+                "port": 8001
             }
           ]
         }
