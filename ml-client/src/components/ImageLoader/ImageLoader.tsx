@@ -24,6 +24,17 @@ async function getImageFromClipboard() {
       for (const type of item.types) {
         if (type === "text/plain") {
           const urlBlob = await item.getType(type)
+
+          // https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
+
+          // Drat.
+          // It worked for me in Helix with Blazor WASM, so I forgot that the browser could be blocking these.
+          // To make this work I'd need to use a CORS proxy.
+
+          // I could implement it by passing a base64 string of the target URL to the backend, and having it
+          // send the data back to the client.
+
+          // I guess that is one way I could extend the backend server's capabilities.
           const data = await fetch(new URL(await urlBlob.text()))
           const dataType = data.headers.get("Content-Type")
           if (dataType && validImageTypes.includes(dataType)) {
