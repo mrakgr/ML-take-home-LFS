@@ -18,14 +18,14 @@
     },
     "imageRegistryUsername": {
       "type": "string",
-      "defaultValue": "???",
+      "defaultValue": "cacacbd392b0acr",
       "metadata": {
         "description": "Image Registry Server Username"
       }
     },
     "imageRegistryPassword": {
       "type": "securestring",
-      "defaultValue": "???",
+      "defaultValue": "",
       "metadata": {
         "description": "Image Registry Server Password"
       }
